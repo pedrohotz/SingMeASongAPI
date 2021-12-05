@@ -50,9 +50,23 @@ async function getRandomRec(req,res){
     }
 }
 
+async function getTop(req,res){
+    const { amount } = req.params;
+    try {
+        const recomendations = await recommendationService.getTopRec(amount);
+        if(!recomendations){
+            res.sendStatus(400);
+        }
+        return res.status(200).send(recomendations)
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
 export {
     postRecommendation,
     upVoteRecommendation,
     dropVoteRecommendation,
     getRandomRec,
+    getTop,
 }

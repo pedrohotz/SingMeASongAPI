@@ -2,7 +2,7 @@ import connection from "../database/connection.js";
 
 
 async function createRecommendation(name,youtubeLink){
-    await connection.query('INSERT INTO recommendations (name,ytbLink) VALUES ($1,$2)',[name,youtubeLink]);
+    await connection.query('INSERT INTO recommendations (name,ytbLink,points) VALUES ($1,$2,0)',[name,youtubeLink]);
 }
 
 async function checkForExistentRec(id){
@@ -42,10 +42,16 @@ async function getRandomRec({moreThan10}){
     }
 }
 
+async function getTopRec(amount){
+    let result = await connection.query('SELECT * FROM recommendations ORDER BY points DESC LIMIT $1',[amount]);
+    return result.rows;
+}
+
 export {
     createRecommendation,
     checkForExistentRec,
     addPoint,
     dropPoint,
     getRandomRec,
+    getTopRec,
 }

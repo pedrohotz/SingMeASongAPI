@@ -60,6 +60,17 @@ async function getRandom(){
     return recomendation;
 }
 
+async function getTopRec(amount){
+    if(amount <= 0){
+        return null;
+    }
+    const recommendations = await recommendationRepository.getTopRec(amount)
+    if(recommendations.length === 0){
+        return null;
+    }
+    return recommendations;
+}
+
 
 export {
     validateRec,
@@ -68,4 +79,5 @@ export {
     sendUpVote,
     dropUpVote,
     getRandom,
+    getTopRec,
 }
