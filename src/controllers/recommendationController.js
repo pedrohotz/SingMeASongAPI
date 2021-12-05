@@ -38,8 +38,21 @@ async function dropVoteRecommendation(req,res){
     }
 }
 
+async function getRandomRec(req,res){
+    try {
+        const recomendation = await recommendationService.getRandom()
+        if(!recomendation){
+            return res.sendStatus(404);
+        }
+        return res.status(200).send(recomendation);
+    } catch (error) {
+        return res.sendStatus(500);
+    }
+}
+
 export {
     postRecommendation,
     upVoteRecommendation,
     dropVoteRecommendation,
+    getRandomRec,
 }

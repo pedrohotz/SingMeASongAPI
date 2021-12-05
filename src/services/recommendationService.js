@@ -36,10 +36,28 @@ async function dropUpVote(id){
     await recommendationRepository.dropPoint(id);
 }
 
-
-
 async function registerRecInDB(name,youtubeLink){
     await recommendationRepository.createRecommendation(name,youtubeLink);
+}
+
+
+async function getRandom(){
+    let randomNumber = Math.random();
+    let recomendation;
+    if(randomNumber > 0.3){
+        recomendation = await recommendationRepository.getRandomRec({ moreThan10: randomNumber > 0.3 })
+        if(recomendation.length === 0){
+            recomendation = await recommendationRepository.getRandomRec();
+        }
+    }
+    else{
+        recomendation = await recommendationRepository.getRandomRec({moreThan10: false});
+    }
+
+    if(recomendation.length === 0){
+        return null;
+    }
+    return recomendation;
 }
 
 
@@ -49,4 +67,5 @@ export {
     validateRecId,
     sendUpVote,
     dropUpVote,
+    getRandom,
 }
