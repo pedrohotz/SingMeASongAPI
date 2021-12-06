@@ -1,6 +1,7 @@
-import express from "express";
+import express from 'express';
 import cors from 'cors';
 import * as recommendationController from './controllers/recommendationController.js';
+
 const app = express();
 
 app.use(cors());
@@ -11,6 +12,5 @@ app.post('/recommendations/:id/upvote', recommendationController.upVoteRecommend
 app.post('/recommendations/:id/downvote', recommendationController.dropVoteRecommendation);
 app.get('/recommendations/random', recommendationController.getRandomRec);
 app.get('/recommendations/top/:amount', recommendationController.getTop);
-
 
 export default app;
