@@ -4,9 +4,10 @@ async function postRecommendation(req,res){
     const {name, youtubeLink} = req.body;
     try {
         const recommendation = await recommendationService.validateRec(name,youtubeLink);
+        console.log(recommendation);
         if(recommendation){
-            await recommendationService.registerRecInDB(name,youtubeLink)
-            res.sendStatus(201);
+            let rec =  await recommendationService.registerRecInDB(name,youtubeLink)
+            res.send(rec).status(201);
         }
         else{
             res.sendStatus(400);
@@ -22,8 +23,8 @@ async function upVoteRecommendation(req,res){
     try {
         const isValidID = await recommendationService.validateRecId(id)
         if(isValidID){
-           await recommendationService.sendUpVote(id);
-           res.sendStatus(200);
+           let rec = await recommendationService.sendUpVote(id);
+           res.send(rec);
         }
         else{
             res.sendStatus(400);
@@ -38,8 +39,8 @@ async function dropVoteRecommendation(req,res){
     try {
         const isValidID = await recommendationService.validateRecId(id)
         if(isValidID){
-            await recommendationService.dropUpVote(id)
-            res.sendStatus(200)
+           let rec =  await recommendationService.dropUpVote(id)
+            res.send(rec);
         }
         else{
             res.sendStatus(400)
